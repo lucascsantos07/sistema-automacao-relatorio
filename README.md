@@ -35,6 +35,42 @@ Com isso, espera-se reduzir o retrabalho, evitar a perda de informações, aumen
 | Back-end | Python com Django |
 | Banco de dados | PostgreSQL |
 
+## Instrução para Banco de dados
+
+O banco é um PostgreSQL 16 executado em Docker.
+
+**Pré-requisito:** [Docker](https://docs.docker.com/get-docker/) com Docker Compose.
+
+**Configuração inicial**
+
+```bash
+cp .env.example .env     # Windows (PowerShell): copy .env.example .env
+```
+
+Edite o `.env` e defina uma senha em `DB_PASSWORD`.
+
+**Comandos**
+
+| Ação | Comando |
+|---|---|
+| Subir o banco | `docker compose up -d` |
+| Ver se está pronto | `docker compose ps` |
+| Ver os logs | `docker compose logs -f db` |
+| Parar o banco (mantém os dados) | `docker compose down` |
+| Apagar o banco e os dados | `docker compose down -v` |
+
+O banco sobe vazio. As tabelas são criadas pelas migrations do Django.
+
+**Conexão**
+
+| Parâmetro | Valor |
+|---|---|
+| Host | `localhost` |
+| Porta | valor de `DB_PORT` (padrão 5432) |
+| Banco, usuário e senha | valores do `.env` |
+
+> O `docker compose down -v` **apaga todos os dados**. Use apenas para recriar o banco do zero.
+
 ## Equipe de Desenvolvimento
 
 - Flávia Juliana de Araújo Carvalho
