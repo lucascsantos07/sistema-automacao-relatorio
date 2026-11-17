@@ -71,6 +71,28 @@ O banco sobe vazio. As tabelas são criadas pelas migrations do Django.
 
 > O `docker compose down -v` **apaga todos os dados**. Use apenas para recriar o banco do zero.
 
+## Back-end (Django)
+
+**Pré-requisitos:** Python 3.11 ou superior e o banco de dados em execução (seção anterior).
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate          # Windows (PowerShell): .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+cp .env.example .env               # Windows (PowerShell): copy .env.example .env
+```
+
+Edite o `backend/.env` e use os mesmos valores de banco, usuário e senha do `.env` da raiz.
+
+```bash
+python manage.py migrate           # cria as tabelas
+python manage.py loaddata clientes_teste   # carrega clientes de exemplo
+python manage.py runserver
+```
+
+A aplicação ficará em `http://localhost:8000`.
+
 ## Equipe de Desenvolvimento
 
 - Flávia Juliana de Araújo Carvalho
