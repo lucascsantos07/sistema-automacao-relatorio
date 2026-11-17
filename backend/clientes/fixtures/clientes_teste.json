@@ -1,0 +1,92 @@
+[
+  {
+    "model": "clientes.cliente",
+    "pk": 1,
+    "fields": {
+      "nome": "Aurora Café & Bistrô",
+      "email": "contato@auroracafe.com.br",
+      "cpf_cnpj": "42315670000147",
+      "username": "auroracafe",
+      "telefone": "84991823040",
+      "endereco": "Rua das Flores, 120, Centro, Caicó, RN",
+      "ativo": true,
+      "justificativa_exclusao": null,
+      "justificativa_ativacao": null
+    }
+  },
+  {
+    "model": "clientes.cliente",
+    "pk": 2,
+    "fields": {
+      "nome": "Mariana Fernandes",
+      "email": "mariana@ateliermf.com",
+      "cpf_cnpj": "08342671950",
+      "username": "ateliermariana",
+      "telefone": "84998142256",
+      "endereco": "Av. Seridó, 455, Boa Passagem, Caicó, RN",
+      "ativo": true,
+      "justificativa_exclusao": null,
+      "justificativa_ativacao": null
+    }
+  },
+  {
+    "model": "clientes.cliente",
+    "pk": 3,
+    "fields": {
+      "nome": "Vértice Arquitetura",
+      "email": "projetos@verticearq.com",
+      "cpf_cnpj": "18904223000149",
+      "username": "vertice.arq",
+      "telefone": "84988315720",
+      "endereco": "Rua Getúlio Vargas, 78, Centro, Currais Novos, RN",
+      "ativo": true,
+      "justificativa_exclusao": null,
+      "justificativa_ativacao": null
+    }
+  },
+  {
+    "model": "clientes.cliente",
+    "pk": 4,
+    "fields": {
+      "nome": "Ricardo Medeiros",
+      "email": "ricardo@movestudio.com",
+      "cpf_cnpj": "71459236025",
+      "username": "movericardo",
+      "telefone": "84996704811",
+      "endereco": "Rua Padre Pinto, 310, Centro, Parelhas, RN",
+      "ativo": false,
+      "justificativa_exclusao": "Contrato encerrado a pedido do cliente.",
+      "justificativa_ativacao": null
+    }
+  },
+  {
+    "model": "clientes.cliente",
+    "pk": 5,
+    "fields": {
+      "nome": "Clínica Plena Saúde",
+      "email": "marketing@plenasaude.com.br",
+      "cpf_cnpj": "33781559000155",
+      "username": "clinicplenasaude",
+      "telefone": "84994421907",
+      "endereco": "Av. Brasil, 900, Centro, Caicó, RN",
+      "ativo": true,
+      "justificativa_exclusao": "Pausa temporária do contrato.",
+      "justificativa_ativacao": "Contrato retomado."
+    }
+  },
+  {
+    "model": "clientes.cliente",
+    "pk": 6,
+    "fields": {
+      "nome": "Larissa Dantas",
+      "email": "larissa@doceafeto.com",
+      "cpf_cnpj": "20597143897",
+      "username": "doceafetolarissa",
+      "telefone": "84999357102",
+      "endereco": "Rua Nova, 15, São José, Caicó, RN",
+      "ativo": true,
+      "justificativa_exclusao": null,
+      "justificativa_ativacao": null
+    }
+  }
+]
