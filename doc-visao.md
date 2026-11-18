@@ -47,7 +47,7 @@ O sistema é utilizado apenas por funcionários da agência. Os clientes da agê
 
 Perfil | Descrição |
 --------- | ----------- |
-Usuário | Funcionário autenticado da agência. Cadastra e consulta clientes, gera relatórios, consulta o histórico de relatórios e métricas e exporta relatórios em PDF.
+Usuário | Funcionário autenticado da agência. Cadastra e consulta clientes, gera relatórios, consulta o histórico de métricas e exporta relatórios em PDF.
 Administrador | Especialização de Usuário. Possui todas as funções do Usuário e, além disso, gerencia os usuários do sistema e conecta a conta Meta.
 
 ## Lista de Requisitos Funcionais
@@ -101,14 +101,14 @@ RF07.02 - Armazenar Métricas | Salva as métricas coletadas no banco de dados, 
 
 ---
 
-### Entidade Relatório - US04 - Gerar Relatório e Consultar Histórico
-Um relatório é gerado a partir das métricas de um cliente em um período, com as métricas e o formato escolhidos.
+### Relatórios - US04 - Gerar Relatório e Consultar Histórico
+O relatório é gerado sob demanda a partir das métricas de um cliente em um período, com as métricas e o formato escolhidos, não sendo armazenado como entidade no banco de dados.
 
 Requisito | Descrição | Ator |
 --------- | ----------- | ---------- |
 RF03.01 - Gerar Relatório | Gera relatório informando: cliente, período (atual, semanal ou mensal), métricas e formato de visualização (PDF, tabela ou dashboard). Exige conta Meta conectada. | Usuário, Administrador |
 RF03.02 - Exportar PDF | Exporta o relatório gerado em PDF com um clique. | Usuário, Administrador |
-RF04.01 - Consultar Histórico | Lista os relatórios e as métricas armazenados de um cliente. Informa quando não há registros. | Usuário, Administrador |
+RF04.01 - Consultar Histórico | Lista o histórico de métricas armazenadas do cliente, por período. Informa quando não há registros. | Usuário, Administrador |
 
 ---
 
@@ -180,16 +180,6 @@ classDiagram
         +salvarMetricas(metricas: Metricas, c: Cliente) void
     }
 
-    class Relatorio {
-        -int id
-        -date dataGeracao
-        -string periodo
-        -string formato
-        +gerarRelatorio(c: Cliente, periodo: string, formato: string) Relatorio
-        +exportarPdf() file
-        +consultarHistorico(c: Cliente) List~Relatorio~
-    }
-
     class MetaAPIService {
         -string token
         -string baseUrl
@@ -201,8 +191,6 @@ classDiagram
     Pessoa <|-- Cliente
     Pessoa <|-- Usuario
     Cliente "1" --> "0..*" Metricas : possui
-    Cliente "1" --> "0..*" Relatorio : tem
-    Relatorio "1" --> "1..*" Metricas : usa
     Usuario ..> MetaAPIService : usa
     Metricas ..> MetaAPIService : usa
 ```
@@ -215,7 +203,6 @@ Pessoa | Classe base com os dados comuns: id, nome, e-mail e CPF/CNPJ. |
 Cliente | Conta atendida pela agência. Além dos dados de Pessoa, tem telefone, endereço e o @ do Instagram, usado para buscar métricas. |
 Usuario | Funcionário da agência que acessa o sistema. Tem senha, setor, cargo, telefone e indicador de administrador. |
 Metricas | Indicadores de desempenho do perfil de um cliente em uma data. Formam o histórico permanente. |
-Relatorio | Documento gerado a partir das métricas de um cliente em um período, com formato e data de geração. |
 MetaAPIService | Serviço que se comunica com a API da Meta: autentica, chama a API e busca o perfil pelo @. |
 
 ### Diagramas UML complementares
