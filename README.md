@@ -71,9 +71,9 @@ O banco sobe vazio. As tabelas são criadas pelas migrations do Django.
 
 > O `docker compose down -v` **apaga todos os dados**. Use apenas para recriar o banco do zero.
 
-## Back-end (Django)
+## Back-end (Django - API REST)
 
-**Pré-requisitos:** Python 3.11 ou superior e o banco de dados em execução (seção anterior).
+**Pré-requisitos:** Python 3.11 ou superior e o banco de dados PostgreSQL em execução (seção anterior).
 
 ```bash
 cd backend
@@ -83,37 +83,56 @@ pip install -r requirements.txt
 cp .env.example .env               # Windows (PowerShell): copy .env.example .env
 ```
 
-Edite o `backend/.env` e use os mesmos valores de banco, usuário e senha do `.env` da raiz.
+Edite o `backend/.env`:
+* Defina uma chave aleatória em `DJANGO_SECRET_KEY`.
+* Use os mesmos valores de banco (`DB_NAME`, `DB_USER`, `DB_PASSWORD` e `DB_PORT`) configurados no `.env` da raiz.
+
+Em seguida, aplique as migrations, carregue os dados de teste e inicie a API na porta **3001**:
 
 ```bash
-python manage.py migrate           # cria as tabelas
-python manage.py loaddata clientes_teste   # carrega clientes de exemplo
-python manage.py runserver
+python manage.py migrate                   # cria as tabelas no PostgreSQL
+python manage.py loaddata clientes_teste   # carrega clientes de exemplo (fixture)
+python manage.py runserver 0.0.0.0:3001    # inicia a API REST
 ```
 
-A aplicação ficará em `http://localhost:8000`.
+A API REST estará disponível em `http://localhost:3001`.
 
 ### Endpoints da API REST
 
 | Método | Rota | Descrição |
 |---|---|---|
-| `GET` | `/clientes` | Lista clientes. Suporta `q`, `tipo` (PF/PJ), `status` (ativo/inativo), `page` e `limit`. |
-| `POST` | `/clientes` | Cadastra um novo cliente. |
-| `GET` | `/clientes/<id>` | Retorna os dados de um cliente. |
-| `PUT` | `/clientes/<id>` | Atualiza os dados cadastrais (`cpf_cnpj` e `ativo` são imutáveis). |
-| `PATCH` | `/clientes/<id>/status` | Inativa ou reativa o cliente com justificativa obrigatória. |
+| `GET` | `/clientes` | Lista clientes. Suporta busca textual `q`, filtros `tipo` (PF/PJ), `status` (ativo/inativo) e paginação (`page`, `limit`). |
+| `POST` | `/clientes` | Cadastra um novo cliente com validações de CPF/CNPJ e e-mail. |
+| `GET` | `/clientes/<id>` | Retorna os detalhes de um cliente específico. |
+| `PUT` | `/clientes/<id>` | Atualiza os dados cadastrais (`cpf_cnpj` e `ativo` são imutáveis via PUT). |
+| `PATCH` | `/clientes/<id>/status` | Inativa ou reativa o cliente com justificativa de auditoria obrigatória. |
 
-> O `DELETE` físico é bloqueado (HTTP 405). A exclusão é sempre lógica via `PATCH /status`.
+> O `DELETE` físico é bloqueado (HTTP 405). A exclusão de clientes é sempre lógica via `PATCH /clientes/<id>/status`.
 
 ### Rodando os testes automatizados
 
-Os testes usam SQLite in-memory e não exigem o Docker no ar:
+Os testes do backend usam SQLite em memória e não necessitam que o Docker esteja em execução:
 
 ```bash
 cd backend
 source .venv/bin/activate          # Windows (PowerShell): .venv\Scripts\Activate.ps1
 DJANGO_SETTINGS_MODULE=config.settings_test python manage.py test clientes --verbosity=2
 ```
+
+## Front-end (Next.js)
+
+Interface web interativa desenvolvida em Next.js para gerenciamento e visualização dos clientes.
+
+**Pré-requisitos:** Node.js 18 ou superior e npm.
+
+```bash
+cd frontend
+npm install                        # instala as dependências
+cp .env.example .env.local         # Windows (PowerShell): copy .env.example .env.local
+npm run dev                        # inicia o servidor de desenvolvimento
+```
+
+Abra [http://localhost:3000](http://localhost:3000) no navegador. A aplicação se conectará automaticamente à API em `http://localhost:3001`.
 
 ## Equipe de Desenvolvimento
 
