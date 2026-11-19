@@ -93,6 +93,28 @@ python manage.py runserver
 
 A aplicação ficará em `http://localhost:8000`.
 
+### Endpoints da API REST
+
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/clientes` | Lista clientes. Suporta `q`, `tipo` (PF/PJ), `status` (ativo/inativo), `page` e `limit`. |
+| `POST` | `/clientes` | Cadastra um novo cliente. |
+| `GET` | `/clientes/<id>` | Retorna os dados de um cliente. |
+| `PUT` | `/clientes/<id>` | Atualiza os dados cadastrais (`cpf_cnpj` e `ativo` são imutáveis). |
+| `PATCH` | `/clientes/<id>/status` | Inativa ou reativa o cliente com justificativa obrigatória. |
+
+> O `DELETE` físico é bloqueado (HTTP 405). A exclusão é sempre lógica via `PATCH /status`.
+
+### Rodando os testes automatizados
+
+Os testes usam SQLite in-memory e não exigem o Docker no ar:
+
+```bash
+cd backend
+source .venv/bin/activate          # Windows (PowerShell): .venv\Scripts\Activate.ps1
+DJANGO_SETTINGS_MODULE=config.settings_test python manage.py test clientes --verbosity=2
+```
+
 ## Equipe de Desenvolvimento
 
 - Flávia Juliana de Araújo Carvalho
